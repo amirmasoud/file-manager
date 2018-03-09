@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Auth;
+use Horizon;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Horizon::auth(function ($request) {
+            if (Auth::check()) {
+                return true;
+            } else {
+                return false;
+            }
+        });
     }
 
     /**
