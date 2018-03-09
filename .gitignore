@@ -6,6 +6,5 @@
 Homestead.json
 Homestead.yaml
 .env
-/public/vendor
 /public/photos
 /public/files
