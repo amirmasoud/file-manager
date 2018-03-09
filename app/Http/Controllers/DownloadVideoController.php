@@ -26,7 +26,7 @@ class DownloadVideoController extends Controller {
         $file = FilePath::where('path', $path)->firstOrFail();
         if (! empty(array_intersect(array_values(['anonymouse']), $file->roles())) ||
             in_array(pathinfo($file->path, PATHINFO_EXTENSION), ['ts', 'm3u8'])) {
-            return response()->download($path, 'online', ['Content-Type' => 'application/vnd.apple.mpegurl']);
+            return response()->download($path, pathinfo($file->path)['basename'], ['Content-Type' => 'application/vnd.apple.mpegurl']);
         }
 
          if (!isset($_SERVER['PHP_AUTH_USER'])) {
