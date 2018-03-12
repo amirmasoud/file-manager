@@ -1,6 +1,7 @@
 <?php
 namespace App\Listeners;
 
+use Log;
 use App\FilePath;
 use App\Jobs\ProcessVideo;
 use Unisharp\Laravelfilemanager\Events\ImageWasUploaded;
@@ -15,6 +16,7 @@ class HasUploadedImageListener
      */
     public function handle(ImageWasUploaded $event)
     {
+        Log::debug('Started');
         // Get te public path to the file and save it to the database
         $publicFilePath = str_replace(public_path(), "", $event->path());
         $filePath = FilePath::create([
@@ -30,12 +32,19 @@ class HasUploadedImageListener
         \FFMpeg::fromDisk('local')
             ->open($input)
             ->exportForHLS()
-            ->setPlaylistPath('hello')
             ->setSegmentLength(10)
             ->addFormat($lowBitrate)
-            // ->addFormat($midBitrate)
+            ->addFormat($midBitrate)
             ->addFormat($highBitrate)
             ->save($online_stream_directory . '/online.m3u8');
-        // ProcessVideo::dispatch($filePath);
+        Log::debug('Start ... ');
+        $online_stream_directory = 'public/storage/' . str_replace($basename, '', $input) . str_replace('.', '_', $basename);
+        $m3u8s = glob(base_path($online_stream_directory) . '/*.m3u8');
+        Log::debug($online_stream_directory);
+        foreach ($m3u8s as $m3u8) {
+            $file_contents = file_get_contents($m3u8);
+            $file_contents = str_replace('online_', 'download?file=/public/hello/720P_ (2)_mp4/online_', $file_contents);
+            file_put_contents($m3u8, $file_contents);
+        }
     }
 }
