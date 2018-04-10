@@ -29,7 +29,7 @@ class ItemsController extends LfmController
         foreach ($files as $file) {
             $path = storage_path('app') . $w_dir . '/' . $file->name;
             $file->permission = FilePath::where('path', $path)->firstOrCreate(['path' => $path])->toArray();
-            $file->download = route('download') . '?file=' . $w_dir . '/' . $file->name;
+            $file->download = route('download') . '?file=' . $this->encode($w_dir) . '/' . urlencode($file->name);
         }
         return [
             'html' => (string)view($this->getView())->with([
@@ -58,5 +58,14 @@ class ItemsController extends LfmController
         }
 
         return 'laravel-filemanager::' . $view_type . '-view';
+    }
+
+    private function encode($text)
+    {
+        $parts = explode('/', $text);
+        array_walk($parts, function ($part, $key) {
+            $part = urlencode($part);
+        });
+        return implode('/', $parts);
     }
 }
