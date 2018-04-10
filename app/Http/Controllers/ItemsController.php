@@ -63,7 +63,7 @@ class ItemsController extends LfmController
     private function encode($text)
     {
         $parts = explode('/', $text);
-        array_walk($parts, function ($part, $key) {
+        array_walk($parts, function (&$part, $key) {
             $part = urlencode($part);
         });
         return implode('/', $parts);
