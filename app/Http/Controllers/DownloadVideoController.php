@@ -29,6 +29,10 @@ class DownloadVideoController extends Controller {
             return response()->download($path, pathinfo($file->path)['basename'], ['Content-Type' => 'application/vnd.apple.mpegurl']);
         }
 
+        if (strpos($path, 'storage/app/public')) {
+            return response()->download($path);
+        }
+
          if (!isset($_SERVER['PHP_AUTH_USER'])) {
             header('WWW-Authenticate: Basic realm="My Realm"');
             header('HTTP/1.0 401 Unauthorized');
