@@ -76,7 +76,6 @@ class DownloadVideoController extends Controller {
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
 
         $response = curl_exec($curl);
-
         $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         // Check if login was successful
         if ($http_code == 200) {
