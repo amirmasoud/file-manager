@@ -89,9 +89,9 @@ class UploadController extends LfmController
             return parent::error('file-empty');
         } elseif (!$file instanceof UploadedFile) {
             return parent::error('instance');
-        } elseif ($file->getError() == UPLOAD_ERR_INI_SIZE) {
-            $max_size = ini_get('upload_max_filesize');
-            return parent::error('file-size', ['max' => $max_size]);
+        //} elseif ($file->getError() == UPLOAD_ERR_INI_SIZE) {
+            // $max_size = ini_get('upload_max_filesize');
+            // return parent::error('file-size', ['max' => $max_size]);
         } elseif ($file->getError() != UPLOAD_ERR_OK) {
             return 'File failed to upload. Error code: ' . $file->getError();
         }
