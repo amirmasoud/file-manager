@@ -25,7 +25,7 @@ class ProcessVideo implements ShouldQueue
     public function __construct(FilePath $filePath)
     {
         $this->filePath = $filePath;
-        \Log::debug('Call Handle');
+        // \Log::debug('Call Handle');
     }
 
     /**
@@ -46,6 +46,8 @@ class ProcessVideo implements ShouldQueue
 
         $input = str_replace(storage_path() . '/app/', '', $filePath->path);
         $basename = basename($input);
+        \Log::debug($basename);
+        \Log::debug($input);
         $online_stream_directory = 'public/' . str_replace($basename, '', $input) . str_replace('.', '_', $basename);
         \FFMpeg::fromDisk('local')
             ->open($input)
