@@ -19,8 +19,24 @@ class PermissionController extends Controller
         }
 
         FilePath::findOrFail($file)
+            ->where('path', 'LIKE', $this->getPlaylistsAndSegments($file) . '%')
             ->update([
                 $role => ($action == 'allow' ? true : false)
             ]);
+    }
+
+    /**
+     * Get file directory only to find all playlists and segments of a streaming
+     * video.
+     *
+     * @param  string $file
+     * @return string
+     */
+    private function getPlaylistsAndSegments($file)
+    {
+        $explode = explode('/', $file);
+        array_pop($explode);
+        $implode = implode('/', $explode);
+        return $implode;
     }
 }
