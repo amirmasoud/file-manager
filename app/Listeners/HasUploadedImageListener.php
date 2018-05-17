@@ -25,7 +25,7 @@ class HasUploadedImageListener
             'path' => $publicFilePath,
         ]);
 
-        $bit240 = (new X264('libmp3lame', 'libx264'))->setKiloBitrate(400);
+        $bit240 = (new X264('aac', 'libx264'))->setKiloBitrate(400);
         // $bit360 = (new X264('libmp3lame', 'libx264'))->setKiloBitrate(750);
         // $bit480 = (new X264('libmp3lame', 'libx264'))->setKiloBitrate(1000);
         // $bit720 = (new X264('libmp3lame', 'libx264'))->setKiloBitrate(2500);
