@@ -102,7 +102,8 @@ class DownloadVideoController extends Controller {
                     abort(403);
                 }
             } catch (\Exception $e) {
-                abort(403);
+                echo 'Not permitted';
+                exit;
             }
         } else {
             // Authorize token
