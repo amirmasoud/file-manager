@@ -20,7 +20,8 @@ class DownloadVideoController extends Controller {
     public function get()
     {
         if (request('file') == '' || is_null(request('file'))) {
-            return abort(404);
+            echo 'Not found';
+            exit;
         } else {
             $filename = request('file');
             $path = storage_path('app' . $filename);
@@ -99,7 +100,8 @@ class DownloadVideoController extends Controller {
                 $logged_user = json_decode($response);
                 // Anonymouse user
                 if (is_null($logged_user)) {
-                    abort(403);
+                    echo 'Not permitted';
+                    exit;
                 }
             } catch (\Exception $e) {
                 echo 'Not permitted';

@@ -30,6 +30,7 @@ class ItemsController extends LfmController
             $path = storage_path('app') . $w_dir . '/' . $file->name;
             $file->permission = FilePath::where('path', $path)->firstOrCreate(['path' => $path])->toArray();
             $file->download = route('download') . '?file=' . $this->encode($w_dir) . '/' . urlencode($file->name);
+            $file->pathForEncode = $w_dir . '/' . $file->name;
         }
         return [
             'html' => (string)view($this->getView())->with([

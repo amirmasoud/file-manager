@@ -36,6 +36,11 @@
         <a href="javascript:trash('{{ $item->name }}')">
           <i class="fa fa-trash fa-fw"></i>
         </a>
+        @if(in_array(pathinfo($item->name, PATHINFO_EXTENSION), ['mp4', 'mkv']))
+        <a href="javascript:encode('{{ $item->pathForEncode }}')">
+          <i class="fa fa-video-camera fa-fw"></i>
+        </a>
+        @endif
         @if($item->thumb)
         <a href="javascript:cropImage('{{ $item->name }}')">
           <i class="fa fa-crop fa-fw"></i>

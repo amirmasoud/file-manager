@@ -223,6 +223,16 @@ function trash(item_name) {
   });
 }
 
+function encode(item_path) {
+  bootbox.confirm('Start processing video?', function (result) {
+    if (result == true) {
+      performLfmRequest('encode', {path: item_path})
+        .done(refreshFoldersAndItems);
+    }
+  });
+}
+
+
 function cropImage(image_name) {
   performLfmRequest('crop', {img: image_name})
     .done(hideNavAndShowEditor);

@@ -11,25 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    $lowBitrate = (new \FFMpeg\Format\Video\X264('libmp3lame', 'libx264'))->setKiloBitrate(250);
-    $midBitrate = (new \FFMpeg\Format\Video\X264('libmp3lame', 'libx264'))->setKiloBitrate(500);
-    $highBitrate = (new \FFMpeg\Format\Video\X264('libmp3lame', 'libx264'))->setKiloBitrate(1000);
-    \Log::debug('Message');
-    // dd(FFMpeg::fromDisk('movie')
-    //     ->open('Movie/720P_ (2).mp4')
-    //     ->exportForHLS()
-    //     ->onProgress(function ($percentage) {
-    //         echo "$percentage % transcoded";
-    //     })
-    //     ->setSegmentLength(10)
-    //     ->addFormat($lowBitrate)
-    //     ->addFormat($midBitrate)
-    //     ->addFormat($highBitrate)
-    //     ->save('Movie/online/adaptive_steve.m3u8'));
-    return view('welcome');
-});
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
@@ -67,4 +48,5 @@ Route::group(compact('middleware', 'prefix', 'as'), function () {
     ]);
 
     Route::get('perm/{role}/{action}/{file}', 'PermissionController@takeAction')->middleware('auth');
+    Route::get('encode', 'EncodeController@start')->middleware('auth');
 });
