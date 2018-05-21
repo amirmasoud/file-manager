@@ -67,7 +67,6 @@ class DownloadVideoController extends Controller {
                   'password' => env('ADMIN_PASSWORD', '123456'),
                 );
 
-
                 // cURL
                 $curl = curl_init();
                 curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
