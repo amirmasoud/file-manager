@@ -52,14 +52,14 @@ class DownloadVideoController extends Controller {
                 curl_setopt($curl_get, CURLOPT_SSL_VERIFYPEER, 0);
                 curl_setopt_array($curl_get, array(
                     CURLOPT_RETURNTRANSFER => 1,
-                    CURLOPT_URL => 'http://movies_theme.test/services/session/token',
+                    CURLOPT_URL => env('WEB_URL') . '/services/session/token',
                 ));
                 $csrf_token = curl_exec($curl_get);
                 curl_close($curl_get);
                 $csrf_header = 'X-CSRF-Token: ' . $csrf_token;
 
                 // REST Server URL
-                $request_url = 'http://movies_theme.test/api/users/login';
+                $request_url = env('WEB_URL') . '/api/users/login';
 
                 // User data
                 $user_data = array(
@@ -81,7 +81,7 @@ class DownloadVideoController extends Controller {
                 $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
                 // REST Server URL
-                $request_url = 'http://movies_theme.test/api2/users/' . $sub;
+                $request_url = env('WEB_URL') . '/api2/users/' . $sub;
 
                 // cURL
                 $curl = curl_init();
@@ -126,14 +126,14 @@ class DownloadVideoController extends Controller {
             curl_setopt($curl_get, CURLOPT_SSL_VERIFYPEER, 0);
             curl_setopt_array($curl_get, array(
                 CURLOPT_RETURNTRANSFER => 1,
-                CURLOPT_URL => 'http://filimator.com/services/session/token',
+                CURLOPT_URL => env('WEB_URL') . '/services/session/token',
             ));
             $csrf_token = curl_exec($curl_get);
             curl_close($curl_get);
             $csrf_header = 'X-CSRF-Token: ' . $csrf_token;
 
             // REST Server URL
-            $request_url = 'http://filimator.com/api/users/login';
+            $request_url = env('WEB_URL') . '/api/users/login';
 
             // User data
             $user_data = array(
