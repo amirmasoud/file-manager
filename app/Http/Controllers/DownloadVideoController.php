@@ -63,8 +63,8 @@ class DownloadVideoController extends Controller {
 
                 // User data
                 $user_data = array(
-                  'username' => 'remote_admin',
-                  'password' => '123456',
+                  'username' => env('ADMIN_USER', 'remote_admin'),
+                  'password' => env('ADMIN_PASSWORD', '123456'),
                 );
 
                 // cURL
