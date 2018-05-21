@@ -67,6 +67,7 @@ class DownloadVideoController extends Controller {
                   'password' => env('ADMIN_PASSWORD', '123456'),
                 );
 
+
                 // cURL
                 $curl = curl_init();
                 curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
@@ -98,6 +99,7 @@ class DownloadVideoController extends Controller {
                 $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
                 $logged_user = json_decode($response);
+
                 // Anonymouse user
                 if (is_null($logged_user)) {
                     echo 'Not permitted';
@@ -109,7 +111,7 @@ class DownloadVideoController extends Controller {
             }
         } else {
             // Authorize token
-            header('Access-Control-Allow-Origin: http://media.test');
+            header('Access-Control-Allow-Origin: ' . env('WEB_URL'));
             header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
             header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, Authorization, X-Request-With');
 
