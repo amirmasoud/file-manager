@@ -173,12 +173,12 @@ class DownloadVideoController extends Controller {
 
         if (empty(array_intersect(array_values((array)$logged_user->roles), $file->roles()))) {
             if (request('token')) {
-                echo 'Not permitted';
+                echo 'Not permitted - Not enough role (TOKEN)';
                 exit;
             } else {
                 header('WWW-Authenticate: Basic realm="My Realm"');
                 header('HTTP/1.0 401 Unauthorized');
-                echo 'Not permitted';
+                echo 'Not permitted - Not enough role (BASIC_AUTH)';
                 exit;
             }
         }
