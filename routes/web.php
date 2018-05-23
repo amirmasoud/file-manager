@@ -19,10 +19,10 @@ Route::get('block/non-ir', function () {
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('login', function () {
-    // auth()->loginUsingId(1);
-    // return redirect()->intended();
-});
+// Route::get('login', function () {
+//     // auth()->loginUsingId(1);
+//     // return redirect()->intended();
+// });
 
 Route::get('download','DownloadVideoController@get')
     ->middleware(['fw-only-whitelisted'])
