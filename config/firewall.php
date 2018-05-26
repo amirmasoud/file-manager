@@ -123,13 +123,13 @@ return [
      *
      */
 
-    'enable_country_search' => false,
+    'enable_country_search' => true,
 
     /*
      * Should Firewall use the database?
      */
 
-    'use_database' => false,
+    'use_database' => true,
 
     /*
      * Models
