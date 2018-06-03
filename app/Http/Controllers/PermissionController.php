@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
+    private $isSingle = true;
+
     public function takeAction($role, $action, $file)
     {
         // Should be dynamic
@@ -17,12 +19,20 @@ class PermissionController extends Controller
         if (!in_array($role, $roles) || !in_array($action, $actions)) {
             return;
         }
-
-        FilePath::findOrFail($file)
-            ->where('path', 'LIKE', $this->getPlaylistsAndSegments($file) . '%')
-            ->update([
-                $role => ($action == 'allow' ? true : false)
-            ]);
+        $path = FilePath::findOrFail($file)->path;
+        $root = $this->getPlaylistsAndSegments($path);
+        if (! $this->isSingle) {
+            FilePath::findOrFail($file)
+                ->where('path', 'LIKE', $root . '%')
+                ->update([
+                    $role => ($action == 'allow' ? true : false)
+                ]);
+        } else {
+            FilePath::findOrFail($file)
+                ->update([
+                    $role => ($action == 'allow' ? true : false)
+                ]);
+        }
     }
 
     /**
@@ -37,6 +47,9 @@ class PermissionController extends Controller
         $explode = explode('/', $file);
         array_pop($explode);
         $implode = implode('/', $explode);
+        if (is_numeric(end($explode))) {
+            $this->isSingle = false;
+        }
         return $implode;
     }
 }
