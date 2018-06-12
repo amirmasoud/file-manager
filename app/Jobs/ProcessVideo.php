@@ -64,6 +64,10 @@ class ProcessVideo implements ShouldQueue
         $input = str_replace(storage_path() . '/app/', '', $filePath->path);
 
         $bitrate = (int) exec('ffprobe -v error -select_streams v:0 -show_entries stream=bit_rate -of default=noprint_wrappers=1:nokey=1 "' . storage_path() . '/app/' . $input . '"');
+        exec('ffprobe -v quiet -print_format json -show_format -show_streams "' . storage_path() . '/app/' . $input . '"', $stream);
+        $stream = json_decode(implode('', $stream));
+        $width = $stream->streams[0]->width;
+        $height = $stream->streams[0]->height;
 
         // $basename = basename($input);
         $dir = crc32(\Carbon\Carbon::now());
@@ -82,7 +86,7 @@ class ProcessVideo implements ShouldQueue
 
 
         $i = 0;
-        while ($bitrate >= $bitrates[$i]) {
+        while ($height >= $dimensions[$i][1]) {
             $br = (new X264('aac', 'libx264'))->setKiloBitrate(($bitrates[$i]/1000));
 
             $ffmpeg->addFormat($br, function($media) use ($dimensions, $i) {
