@@ -8,5 +8,5 @@ return [
 
     'ffprobe.binaries' => '/usr/local/bin/ffprobe',
 
-    'timeout' => 3600,
+    'timeout' => 86400,
 ];
