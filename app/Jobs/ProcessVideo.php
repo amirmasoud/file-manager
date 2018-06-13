@@ -43,8 +43,6 @@ class ProcessVideo implements ShouldQueue
             'path' => $publicFilePath,
         ]);
 
-        $bit240 = (new X264('aac', 'libx264'))->setKiloBitrate(400);
-
         $bitrates = [
             '400000',
             '750000',
@@ -81,6 +79,7 @@ class ProcessVideo implements ShouldQueue
                         ->exportForHLS()
                         ->setSegmentLength(10);
 
+        $bit240 = (new X264('aac', 'libx264'))->setKiloBitrate(($bitrate <= 400000) ? $bitrate/1000 : 400);
         $ffmpeg->addFormat($bit240, function($media) {
             $media->addFilter(function ($filters) {
                 $filters->resize(new Dimension(426, 240));
@@ -90,7 +89,9 @@ class ProcessVideo implements ShouldQueue
 
         $i = 0;
         while ($height >= $dimensions[$i][1]) {
+            $newBitrate = ($bitrate <= $bitrates[$i] ? $bitrate/1000 : $bitrates[$i]/1000);
             $br = (new X264('aac', 'libx264'))->setKiloBitrate(($bitrates[$i]/1000));
+
             $calcWidth = ($dimensions[$i][1] * $aspectRatioX) / $aspectRatioY;
             $calcWidth = ($calcWidth % 2) ? $calcWidth + 1 : $calcWidth; // FFMPEG: width divisible by 2
             $ffmpeg->addFormat($br, function($media) use ($dimensions, $i, $calcWidth) {
