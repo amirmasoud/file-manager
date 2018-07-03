@@ -66,9 +66,11 @@ class ProcessVideo implements ShouldQueue
         $stream = json_decode(implode('', $stream));
         $width = $stream->streams[0]->width;
         $height = $stream->streams[0]->height;
-        $aspectRatio = explode(':', $stream->streams[0]->display_aspect_ratio);
-        $aspectRatioX = $aspectRatio[0];
-        $aspectRatioY = $aspectRatio[1];
+        \Log::debug($height);
+        // $aspectRatio = explode(':', $stream->streams[0]->display_aspect_ratio);
+        // $aspectRatioX = $aspectRatio[0];
+        // $aspectRatioY = $aspectRatio[1];
+        $aspectRatio = $width / $height;
 
         // $basename = basename($input);
         $dir = crc32(\Carbon\Carbon::now());
@@ -90,9 +92,10 @@ class ProcessVideo implements ShouldQueue
         $i = 0;
         while ($height >= $dimensions[$i][1]) {
             $newBitrate = ($bitrate <= $bitrates[$i] ? $bitrate/1000 : $bitrates[$i]/1000);
-            $br = (new X264('aac', 'libx264'))->setKiloBitrate(($bitrates[$i]/1000));
+            $br = (new X264('aac', 'libx264'))->setKiloBitrate(($newBitrate));
 
-            $calcWidth = ($dimensions[$i][1] * $aspectRatioX) / $aspectRatioY;
+            // $calcWidth = ($dimensions[$i][1] * $aspectRatioX) / $aspectRatioY;
+            $calcWidth = $dimensions[$i][1] * $aspectRatio;
             $calcWidth = ($calcWidth % 2) ? $calcWidth + 1 : $calcWidth; // FFMPEG: width divisible by 2
             $ffmpeg->addFormat($br, function($media) use ($dimensions, $i, $calcWidth) {
                 $media->addFilter(function ($filters) use ($dimensions, $i, $calcWidth) {
