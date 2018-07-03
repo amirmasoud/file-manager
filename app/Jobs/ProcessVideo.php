@@ -66,13 +66,12 @@ class ProcessVideo implements ShouldQueue
         $stream = json_decode(implode('', $stream));
         $width = $stream->streams[0]->width;
         $height = $stream->streams[0]->height;
-        \Log::debug($height);
         // $aspectRatio = explode(':', $stream->streams[0]->display_aspect_ratio);
         // $aspectRatioX = $aspectRatio[0];
         // $aspectRatioY = $aspectRatio[1];
         $aspectRatio = $width / $height;
 
-        // $basename = basename($input);
+        $basename = basename($input);
         $dir = crc32(\Carbon\Carbon::now());
         $online_stream_directory = pathinfo(trim($input))['dirname'] . '/' . $dir;
 
