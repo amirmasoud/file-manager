@@ -28,6 +28,10 @@ Route::get('download','DownloadVideoController@get')
     ->middleware(['fw-only-whitelisted'])
     ->name('download');
 
+Route::get('size','DownloadVideoController@size')
+    ->middleware(['fw-only-whitelisted'])
+    ->name('size');
+
 Route::get('/home', 'HomeController@index');
 
 $middleware = array_merge(\Config::get('lfm.middlewares'), [
