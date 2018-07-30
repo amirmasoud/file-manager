@@ -192,4 +192,35 @@ class DownloadVideoController extends Controller {
         echo "You must enter a valid login ID and password to access this resource\n";
         exit;
     }
+
+    public function size()
+    {
+        if (request('file') == '' || is_null(request('file'))) {
+            echo '0.0';
+        } else {
+            $filename = request('file');
+            $path = storage_path('app' . $filename);
+            return ['size' => $this->formatBytes(\Storage::size($filename))];
+        }
+    }
+
+    /**
+     * Format bytes to kb, mb, gb, tb
+     *
+     * @param  integer $size
+     * @param  integer $precision
+     * @return integer
+     */
+    public static function formatBytes($size, $precision = 2)
+    {
+        if ($size > 0) {
+            $size = (int) $size;
+            $base = log($size) / log(1024);
+            $suffixes = array(' bytes', ' KB', ' MB', ' GB', ' TB');
+
+            return round(pow(1024, $base - floor($base)), $precision) . $suffixes[floor($base)];
+        } else {
+            return $size;
+        }
+    }
  }
